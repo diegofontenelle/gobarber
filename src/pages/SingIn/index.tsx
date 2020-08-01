@@ -10,6 +10,7 @@ import Input from '../../components/Input';
 import Button from '../../components/Button';
 import getValidationErrors from '../../utils/getValidationErrors';
 import { useAuth } from '../../hooks/Auth';
+import { useToast } from '../../hooks/Toast';
 
 interface SignInFormData {
   email: string;
@@ -18,7 +19,8 @@ interface SignInFormData {
 
 const SignIn: React.FC = () => {
   const formRef = useRef<FormHandles>(null);
-  const { signIn, user } = useAuth();
+  const { signIn } = useAuth();
+  const { addToast } = useToast();
 
   const handleSubmit = useCallback(async (data: SignInFormData) => {
     try {
@@ -45,8 +47,14 @@ const SignIn: React.FC = () => {
 
         formRef.current?.setErrors(errors);
       }
+
+      addToast({
+        type: "error",
+        title: "Erro na autenticação",
+        description: "Ocorreu um erro ao fazer login, cheque suas credenciais"
+      })
     }
-  }, [signIn]);
+  }, [signIn, addToast]);
 
   return (
     <Container>
@@ -70,7 +78,7 @@ const SignIn: React.FC = () => {
           <a href="">Esqueci minha senha</a>
         </Form>
 
-        <a href="">
+        <a href="javascript:void(0)">
           <FiLogIn />
           Criar conta
         </a>

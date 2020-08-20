@@ -27,7 +27,7 @@ const Toast: React.FC<ToastProps> = ({ message: { id, description, type, title }
     return () => {
       clearTimeout(timer);
     }
-  }, [id])
+  }, [id, removeToast])
 
   return (
     <Container key={id} hasDescription={!!description} type={type} style={style}>
